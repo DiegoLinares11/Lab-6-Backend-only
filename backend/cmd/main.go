@@ -22,25 +22,33 @@ func main() {
 	r := mux.NewRouter()
 
 	// Configurar rutas
-	r.HandleFunc("/api/matches", matchHandler.GetAllMatches).Methods("GET")
-	r.HandleFunc("/api/matches/{id}", matchHandler.GetMatchByID).Methods("GET")
-	r.HandleFunc("/api/matches", matchHandler.CreateMatch).Methods("POST")
-	r.HandleFunc("/api/matches/{id}", matchHandler.UpdateMatch).Methods("PUT")
-	r.HandleFunc("/api/matches/{id}", matchHandler.DeleteMatch).Methods("DELETE")
+	r.HandleFunc("/api/matches", matchHandler.GetAllMatches).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}", matchHandler.GetMatchByID).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/matches", matchHandler.CreateMatch).Methods("POST", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}", matchHandler.UpdateMatch).Methods("PUT", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}", matchHandler.DeleteMatch).Methods("DELETE", "OPTIONS")
 
 	// Rutas PATCH adicionales
-	r.HandleFunc("/api/matches/{id}/goals", matchHandler.RegisterGoal).Methods("PATCH")
-	r.HandleFunc("/api/matches/{id}/yellowcards", matchHandler.RegisterYellowCard).Methods("PATCH")
-	r.HandleFunc("/api/matches/{id}/redcards", matchHandler.RegisterRedCard).Methods("PATCH")
-	r.HandleFunc("/api/matches/{id}/extratime", matchHandler.SetExtraTime).Methods("PATCH")
+	r.HandleFunc("/api/matches/{id}/goals", matchHandler.RegisterGoal).Methods("PATCH", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}/yellowcards", matchHandler.RegisterYellowCard).Methods("PATCH", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}/redcards", matchHandler.RegisterRedCard).Methods("PATCH", "OPTIONS")
+	r.HandleFunc("/api/matches/{id}/extratime", matchHandler.SetExtraTime).Methods("PATCH", "OPTIONS")
 
-	// Configurar CORS
-	handler := cors.Default().Handler(r)
+	// Configurar CORS con opciones más permisivas
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"}, // Permitir cualquier origen
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
+
+	// Envolver el router con el middleware CORS
+	handler := c.Handler(r)
 
 	// Iniciar servidor
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "9000"
+		port = "8080"
 	}
 
 	log.Printf("Servidor iniciado en el puerto %s", port)

@@ -19,6 +19,10 @@ func NewMatchHandler(ps *storage.PostgresStorage) *MatchHandler {
 }
 
 func (mh *MatchHandler) GetAllMatches(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	matches, err := mh.storage.GetAllMatches()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -30,6 +34,11 @@ func (mh *MatchHandler) GetAllMatches(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) GetMatchByID(w http.ResponseWriter, r *http.Request) {
+
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -48,6 +57,10 @@ func (mh *MatchHandler) GetMatchByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) CreateMatch(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	var match models.Match
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&match); err != nil {
@@ -68,6 +81,10 @@ func (mh *MatchHandler) CreateMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) UpdateMatch(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -95,6 +112,10 @@ func (mh *MatchHandler) UpdateMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) DeleteMatch(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -111,6 +132,10 @@ func (mh *MatchHandler) DeleteMatch(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) RegisterGoal(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -127,6 +152,10 @@ func (mh *MatchHandler) RegisterGoal(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh *MatchHandler) RegisterYellowCard(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -143,6 +172,10 @@ func (mh *MatchHandler) RegisterYellowCard(w http.ResponseWriter, r *http.Reques
 }
 
 func (mh *MatchHandler) RegisterRedCard(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -159,6 +192,10 @@ func (mh *MatchHandler) RegisterRedCard(w http.ResponseWriter, r *http.Request) 
 }
 
 func (mh *MatchHandler) SetExtraTime(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -171,5 +208,14 @@ func (mh *MatchHandler) SetExtraTime(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusOK)
+}
+
+// Método para manejar solicitudes OPTIONS
+func (mh *MatchHandler) OptionsHandler(w http.ResponseWriter, r *http.Request) {
+	// Establecer encabezados CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	w.WriteHeader(http.StatusOK)
 }
