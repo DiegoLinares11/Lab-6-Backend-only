@@ -35,7 +35,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Match"
+                                "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
                             }
                         }
                     },
@@ -47,6 +47,68 @@
                                 "type": "string"
                             }
                         }
+                    }
+                }
+            },
+            "post": {
+                "description": "Registra un nuevo partido en la base de datos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Crea un partido",
+                "parameters": [
+                    {
+                        "description": "Datos del partido",
+                        "name": "match",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "options": {
+                "description": "Responde a las solicitudes OPTIONS con los encabezados CORS adecuados",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Maneja las solicitudes OPTIONS",
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
@@ -74,7 +136,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Match"
+                            "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
                         }
                     },
                     "400": {
@@ -96,11 +158,271 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "description": "Modifica la información de un partido identificado por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Actualiza un partido",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Datos actualizados del partido",
+                        "name": "match",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Borra un partido identificado por su ID",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Elimina un partido",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/matches/{id}/extratime": {
+            "patch": {
+                "description": "Establece la cantidad de minutos de tiempo extra en un partido",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Configura el tiempo extra",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/matches/{id}/goals": {
+            "patch": {
+                "description": "Aumenta el conteo de goles en un partido",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Registra un gol",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/matches/{id}/redcards": {
+            "patch": {
+                "description": "Agrega una tarjeta roja a un partido específico",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Registra una tarjeta roja",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/matches/{id}/yellowcards": {
+            "patch": {
+                "description": "Agrega una tarjeta amarilla a un partido específico",
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Registra una tarjeta amarilla",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
-        "models.Match": {
+        "github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match": {
             "type": "object",
             "properties": {
                 "awayTeam": {

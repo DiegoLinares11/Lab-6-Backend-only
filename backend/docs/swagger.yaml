@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  models.Match:
+  github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match:
     properties:
       awayTeam:
         type: string
@@ -41,7 +41,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Match'
+              $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
             type: array
         "500":
           description: Internal Server Error
@@ -52,7 +52,74 @@ paths:
       summary: Obtiene la lista de partidos
       tags:
       - Matches
+    options:
+      description: Responde a las solicitudes OPTIONS con los encabezados CORS adecuados
+      responses:
+        "200":
+          description: OK
+      summary: Maneja las solicitudes OPTIONS
+      tags:
+      - Matches
+    post:
+      consumes:
+      - application/json
+      description: Registra un nuevo partido en la base de datos
+      parameters:
+      - description: Datos del partido
+        in: body
+        name: match
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crea un partido
+      tags:
+      - Matches
   /matches/{id}:
+    delete:
+      description: Borra un partido identificado por su ID
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Elimina un partido
+      tags:
+      - Matches
     get:
       description: Retorna la información de un partido específico por su ID
       parameters:
@@ -67,7 +134,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Match'
+            $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
         "400":
           description: Bad Request
           schema:
@@ -81,6 +148,152 @@ paths:
               type: string
             type: object
       summary: Obtiene un partido
+      tags:
+      - Matches
+    put:
+      consumes:
+      - application/json
+      description: Modifica la información de un partido identificado por su ID
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos actualizados del partido
+        in: body
+        name: match
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_DiegoLinares11_Lab-6-Backend-Only_internal_models.Match'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualiza un partido
+      tags:
+      - Matches
+  /matches/{id}/extratime:
+    patch:
+      description: Establece la cantidad de minutos de tiempo extra en un partido
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Configura el tiempo extra
+      tags:
+      - Matches
+  /matches/{id}/goals:
+    patch:
+      description: Aumenta el conteo de goles en un partido
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Registra un gol
+      tags:
+      - Matches
+  /matches/{id}/redcards:
+    patch:
+      description: Agrega una tarjeta roja a un partido específico
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Registra una tarjeta roja
+      tags:
+      - Matches
+  /matches/{id}/yellowcards:
+    patch:
+      description: Agrega una tarjeta amarilla a un partido específico
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Registra una tarjeta amarilla
       tags:
       - Matches
 schemes:
