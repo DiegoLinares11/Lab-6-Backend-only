@@ -1,3 +1,56 @@
+# Football Matches API
+
+Este proyecto es un backend en Go que gestiona información sobre partidos de fútbol, utilizando PostgreSQL como base de datos.
+Cómo ejecutar el proyecto
+
+Para correr la API, simplemente usa Docker Compose:
+```bash
+docker compose up --build
+```
+Esto levantará tanto el backend como la base de datos sin necesidad de configuraciones adicionales.
+
+## Documentación de la API
+
+La API está documentada con Swagger. Una vez que el backend está corriendo, puedes acceder a la documentación interactiva en:
+URL local:
+http://localhost:8080/swagger/index.html
+
+Endpoints principales
+
+    GET /matches → Obtiene todos los partidos
+
+    GET /matches/{id} → Obtiene un partido por ID
+
+    POST /matches → Crea un nuevo partido
+
+    PUT /matches/{id} → Actualiza un partido
+
+    PATCH /matches/{id} → Actualiza parcialmente un partido
+
+    DELETE /matches/{id} → Elimina un partido
+
+Tecnologías utilizadas
+
+    Go (Gorilla Mux para routing)
+
+    PostgreSQL (almacenamiento de datos)
+
+    Docker & Docker Compose (contenedores)
+
+    Swagger (documentación de API)
+
+Endpoints PATCH
+
+Estos endpoints permiten actualizar atributos específicos de un partido.
+
+    PATCH /matches/{id}/goals → Registra un nuevo gol en el partido
+
+    PATCH /matches/{id}/yellowcards → Registra una tarjeta amarilla
+
+    PATCH /matches/{id}/redcards → Registra una tarjeta roja
+
+    PATCH /matches/{id}/extratime → Establece el tiempo extra del partido
+    
 ## Funcionamiento de las 5 principales rutas:
 Metodo de GET
 ![imagen](https://github.com/user-attachments/assets/ce538478-f1ba-4ddd-9c59-6dfd03f008ca)
