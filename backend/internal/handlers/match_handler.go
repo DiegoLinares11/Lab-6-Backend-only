@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/DiegoLinares11/Lab-6-Backend-Only/internal/models"
 	"github.com/DiegoLinares11/Lab-6-Backend-Only/internal/storage"
@@ -61,6 +62,7 @@ func (mh *MatchHandler) CreateMatch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
 	var match models.Match
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&match); err != nil {
@@ -69,7 +71,14 @@ func (mh *MatchHandler) CreateMatch(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	match.MatchDate = match.MatchDate.UTC()
+	// Convertir string a time.Time y normalizar a UTC
+	matchDate, err := time.Parse("2006-01-02", match.MatchDate)
+	if err != nil {
+		http.Error(w, "Invalid date format, expected YYYY-MM-DD", http.StatusBadRequest)
+		return
+	}
+	match.MatchDate = matchDate.UTC().Format("2006-01-02") // Convertir a UTC y formatear como string
+
 	if err := mh.storage.CreateMatch(&match); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -85,6 +94,7 @@ func (mh *MatchHandler) UpdateMatch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -101,7 +111,15 @@ func (mh *MatchHandler) UpdateMatch(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	match.ID = id
-	match.MatchDate = match.MatchDate.UTC()
+
+	// Convertir string a time.Time y normalizar a UTC
+	matchDate, err := time.Parse("2006-01-02", match.MatchDate)
+	if err != nil {
+		http.Error(w, "Invalid date format, expected YYYY-MM-DD", http.StatusBadRequest)
+		return
+	}
+	match.MatchDate = matchDate.UTC().Format("2006-01-02") // Convertir a UTC y formatear como string
+
 	if err := mh.storage.UpdateMatch(&match); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

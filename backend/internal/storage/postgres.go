@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/DiegoLinares11/Lab-6-Backend-Only/internal/models"
 	_ "github.com/lib/pq"
@@ -73,21 +74,33 @@ func (ps *PostgresStorage) GetMatchByID(id int) (*models.Match, error) {
 }
 
 func (ps *PostgresStorage) CreateMatch(match *models.Match) error {
+	// Convertir la fecha de string a time.Time
+	matchDate, err := time.Parse("2006-01-02", match.MatchDate)
+	if err != nil {
+		return fmt.Errorf("error parsing date: %v", err)
+	}
+
 	query := `
         INSERT INTO matches (home_team, away_team, match_date) 
         VALUES ($1, $2, $3) RETURNING id
     `
-	err := ps.db.QueryRow(query, match.HomeTeam, match.AwayTeam, match.MatchDate).Scan(&match.ID)
+	err = ps.db.QueryRow(query, match.HomeTeam, match.AwayTeam, matchDate).Scan(&match.ID)
 	return err
 }
 
 func (ps *PostgresStorage) UpdateMatch(match *models.Match) error {
+	// Convertir la fecha de string a time.Time
+	matchDate, err := time.Parse("2006-01-02", match.MatchDate)
+	if err != nil {
+		return fmt.Errorf("error parsing date: %v", err)
+	}
+
 	query := `
         UPDATE matches 
-        SET home_team = $1, away_team = $2, match_date = $3 
-        WHERE id = $4
+        SET home_team = $2, away_team = $3, match_date = $4
+        WHERE id = $1
     `
-	_, err := ps.db.Exec(query, match.HomeTeam, match.AwayTeam, match.MatchDate, match.ID)
+	_, err = ps.db.Exec(query, match.ID, match.HomeTeam, match.AwayTeam, matchDate)
 	return err
 }
 
