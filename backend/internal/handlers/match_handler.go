@@ -19,6 +19,15 @@ func NewMatchHandler(ps *storage.PostgresStorage) *MatchHandler {
 	return &MatchHandler{storage: ps}
 }
 
+// GetAllMatches obtiene todos los partidos registrados.
+//
+// @Summary Obtiene la lista de partidos
+// @Description Retorna todos los partidos almacenados en la base de datos
+// @Tags Matches
+// @Produce json
+// @Success 200 {array} models.Match
+// @Failure 500 {object} map[string]string
+// @Router /matches [get]
 func (mh *MatchHandler) GetAllMatches(w http.ResponseWriter, r *http.Request) {
 	// Establecer encabezados CORS
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -34,6 +43,17 @@ func (mh *MatchHandler) GetAllMatches(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(matches)
 }
 
+// GetMatchByID obtiene un partido por su ID.
+//
+// @Summary Obtiene un partido
+// @Description Retorna la información de un partido específico por su ID
+// @Tags Matches
+// @Produce json
+// @Param id path int true "ID del partido"
+// @Success 200 {object} models.Match
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /matches/{id} [get]
 func (mh *MatchHandler) GetMatchByID(w http.ResponseWriter, r *http.Request) {
 
 	// Establecer encabezados CORS

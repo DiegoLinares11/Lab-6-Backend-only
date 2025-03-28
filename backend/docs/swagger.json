@@ -1,0 +1,133 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "API para la gestión de partidos de fútbol.",
+        "title": "La Liga Tracker API",
+        "contact": {
+            "name": "Diego Linares",
+            "url": "https://github.com/DiegoLinares11/Lab-6-Backend-Only"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths": {
+        "/matches": {
+            "get": {
+                "description": "Retorna todos los partidos almacenados en la base de datos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Obtiene la lista de partidos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Match"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/matches/{id}": {
+            "get": {
+                "description": "Retorna la información de un partido específico por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Matches"
+                ],
+                "summary": "Obtiene un partido",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del partido",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Match"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Match": {
+            "type": "object",
+            "properties": {
+                "awayTeam": {
+                    "type": "string"
+                },
+                "extraTime": {
+                    "type": "boolean"
+                },
+                "goals": {
+                    "type": "integer"
+                },
+                "homeTeam": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "matchDate": {
+                    "type": "string"
+                },
+                "redCards": {
+                    "type": "integer"
+                },
+                "yellowCards": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

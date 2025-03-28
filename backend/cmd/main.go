@@ -1,3 +1,14 @@
+// @title La Liga Tracker API
+// @version 1.0
+// @description API para la gestión de partidos de fútbol.
+// @host localhost:8080
+// @BasePath /api
+// @schemes http
+// @contact.name Diego Linares
+// @contact.url https://github.com/DiegoLinares11/Lab-6-Backend-Only
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
 package main
 
 import (
@@ -5,10 +16,12 @@ import (
 	"net/http"
 	"os"
 
+	_ "github.com/DiegoLinares11/Lab-6-Backend-Only/docs" // Importa la documentación generada por Swaggo
 	"github.com/DiegoLinares11/Lab-6-Backend-Only/internal/handlers"
 	"github.com/DiegoLinares11/Lab-6-Backend-Only/internal/storage"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	httpSwagger "github.com/swaggo/http-swagger" // Para servir la documentación Swagger
 )
 
 func main() {
@@ -33,6 +46,9 @@ func main() {
 	r.HandleFunc("/api/matches/{id}/yellowcards", matchHandler.RegisterYellowCard).Methods("PATCH", "OPTIONS")
 	r.HandleFunc("/api/matches/{id}/redcards", matchHandler.RegisterRedCard).Methods("PATCH", "OPTIONS")
 	r.HandleFunc("/api/matches/{id}/extratime", matchHandler.SetExtraTime).Methods("PATCH", "OPTIONS")
+
+	// Ruta para Swagger
+	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	// Configurar CORS con opciones más permisivas
 	c := cors.New(cors.Options{

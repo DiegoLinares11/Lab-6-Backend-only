@@ -1,0 +1,88 @@
+basePath: /api
+definitions:
+  models.Match:
+    properties:
+      awayTeam:
+        type: string
+      extraTime:
+        type: boolean
+      goals:
+        type: integer
+      homeTeam:
+        type: string
+      id:
+        type: integer
+      matchDate:
+        type: string
+      redCards:
+        type: integer
+      yellowCards:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Diego Linares
+    url: https://github.com/DiegoLinares11/Lab-6-Backend-Only
+  description: API para la gestión de partidos de fútbol.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: La Liga Tracker API
+  version: "1.0"
+paths:
+  /matches:
+    get:
+      description: Retorna todos los partidos almacenados en la base de datos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Match'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtiene la lista de partidos
+      tags:
+      - Matches
+  /matches/{id}:
+    get:
+      description: Retorna la información de un partido específico por su ID
+      parameters:
+      - description: ID del partido
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Match'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtiene un partido
+      tags:
+      - Matches
+schemes:
+- http
+swagger: "2.0"
