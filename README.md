@@ -86,3 +86,7 @@ Registro de tarjeta roja:
 
 Registro de tiempo extra:
 ![imagen](https://github.com/user-attachments/assets/b46b3476-3433-4ca1-a1ea-e76eb985966b)
+
+Documentacion del API:
+![imagen](https://github.com/user-attachments/assets/fce2ce79-e9d0-421c-8743-12da1c271ed5)
+
