@@ -1,0 +1,110 @@
+# Football Matches API - Instrucciones de Uso  
+
+> API para gestionar partidos de fútbol, incluyendo goles, tarjetas y tiempo extra. Ideal para análisis deportivos en tiempo real.
+## Guía de Inicio
+
+## Cómo iniciar la API  
+
+Para ejecutar la API, usa el siguiente comando:  
+
+```sh
+docker compose up --build
+```
+Esto levantará el backend y la base de datos automáticamente.
+Endpoints Disponibles
+Obtener todos los partidos
+
+Método: GET
+URL: /api/matches
+Ejemplo de respuesta:
+[
+  {
+    "id": 1,
+    "teamA": "Barcelona",
+    "teamB": "Real Madrid",
+    "goalsA": 2,
+    "goalsB": 1,
+    "yellowCards": 2,
+    "redCards": 1,
+    "extraTime": 3
+  }
+]
+
+Registrar un gol en un partido
+
+Método: PATCH
+URL: /api/matches/{id}/goals
+Cuerpo de la solicitud (JSON):
+
+{
+  "team": "A",
+  "goals": 1
+}
+
+
+Ejemplo de respuesta:
+{
+  "match": {
+    "id": 1,
+    "teamA": "Barcelona",
+    "teamB": "Real Madrid",
+    "goalsA": 3,
+    "goalsB": 1
+  }
+}
+
+Registrar una tarjeta amarilla
+
+Método: PATCH
+URL: /api/matches/{id}/yellowcards
+Cuerpo de la solicitud (JSON):
+{
+  "team": "B",
+  "player": "Sergio Ramos"
+}
+Ejemplo de respuesta:
+
+{
+  "match": {
+    "id": 1,
+    "yellowCards": 3
+  }
+}
+
+Registrar una tarjeta roja
+
+Método: PATCH
+URL: /api/matches/{id}/redcards
+Cuerpo de la solicitud (JSON):
+{
+  "team": "A",
+  "player": "Gerard Piqué"
+}
+Ejemplo de respuesta:
+{
+ 
+  "match": {
+    "id": 1,
+    "redCards": 2
+  }
+}
+Establecer tiempo extra
+
+Método: PATCH
+URL: /api/matches/{id}/extratime
+Cuerpo de la solicitud (JSON):
+{
+  "extraTime": 5
+}
+Ejemplo de respuesta
+{
+  "match": {
+    "id": 1,
+    "extraTime": 5
+  }
+}
+
+Documentación Swagger
+
+Para más detalles sobre la API, visita:
+http://localhost:8080/swagger/index.html

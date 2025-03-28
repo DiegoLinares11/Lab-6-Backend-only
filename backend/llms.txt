@@ -1,0 +1,28 @@
+# Football Matches API
+
+> API para gestionar partidos de fútbol: registrar goles, tarjetas y tiempo extra. Diseñada para análisis deportivo y visualización en tiempo real.
+
+## Documentación
+
+- [Guía de Inicio](/docs/docs.go) - 
+- [Swagger UI](http://localhost:8080/swagger/index.html) - Documentación interactiva
+
+## Ejemplos
+
+- [GET /api/matches](/docs/api#get-matches) - Obtener todos los partidos
+- [PATCH /api/matches/{id}/goals](/docs/api#patch-goals) - Registrar un gol
+- [PATCH /api/matches/{id}/yellowcards](/docs/api#patch-yellowcards) - Tarjeta amarilla
+- [PATCH /api/matches/{id}/redcards](/docs/api#patch-redcards) - Tarjeta roja
+- [PATCH /api/matches/{id}/extratime](/docs/api#patch-extratime) - Agregar tiempo extra
+
+## Recursos Opcionales
+
+- [Repositorio GitHub](https://github.com/DiegoLinares11/Lab-6-Backend-only) - Código fuente del proyecto
+
+## Ejecución
+
+Para iniciar la API, usa el siguiente comando:
+
+```sh
+docker compose up --build
+```
